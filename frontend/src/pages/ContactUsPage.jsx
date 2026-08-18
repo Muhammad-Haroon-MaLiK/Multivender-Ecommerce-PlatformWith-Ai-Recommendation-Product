@@ -28,7 +28,7 @@ const ContactUsPage = () => {
 
     try {
       // Send to your backend API
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch('http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

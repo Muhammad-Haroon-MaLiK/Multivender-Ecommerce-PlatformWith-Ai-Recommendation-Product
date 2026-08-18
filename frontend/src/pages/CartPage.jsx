@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { trackAddToCart } from '../services/recommendationService';
 
-const API_URL = "http://localhost:5000";
+const API_URL = "http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api";
 
 const CartPage = () => {
   const navigate = useNavigate();

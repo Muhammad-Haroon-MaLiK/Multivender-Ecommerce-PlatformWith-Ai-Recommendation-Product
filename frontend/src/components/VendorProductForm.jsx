@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './VendorProductForm.css';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
 
 const VendorProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -38,8 +38,8 @@ const VendorProductForm = ({ onProductAdded, editingProduct, onCancel }) => {
         const imageUrls = editingProduct.images.map(img => {
           if (typeof img === 'string') {
             if (img.startsWith('http')) return img;
-            if (img.startsWith('/')) return `http://localhost:5000${img}`;
-            return `http://localhost:5000/uploads/${img}`;
+            if (img.startsWith('/')) return `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api${img}`;
+            return `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/uploads/${img}`;
           }
           return null;
         }).filter(Boolean);

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Reviews.css";
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
 
 const Reviews = ({ productId, user }) => {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import UserRoleManager from '../components/UserRoleManager';
 import VendorApproval from '../components/VendorApproval';
 import './AdminDashboard.css';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
 
 const AdminDashboard = ({ user, setPage }) => {
   const [activeTab, setActiveTab] = useState('vendors');

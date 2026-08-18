@@ -3,8 +3,8 @@ import axios from 'axios';
 import VendorProductForm from '../components/VendorProductForm';
 import './VendorDashboardPage.css';
 
-const API_URL = 'http://localhost:5000/api';
-const BASE_URL = 'http://localhost:5000';
+const API_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
+const BASE_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api';
 
 const VendorDashboardPage = ({ user }) => {
   const [activeTab, setActiveTab] = useState('products');

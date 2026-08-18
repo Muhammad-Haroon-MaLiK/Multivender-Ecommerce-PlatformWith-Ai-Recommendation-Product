@@ -4,7 +4,7 @@ import axios from 'axios';
 import './AuthPages.css';
 import google from '../assets/search.png';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ const LoginPage = () => {
               'Sign In'
             )}
           </button>
-          <button onClick={() => window.open('http://localhost:5000/api/auth/google', '_self')} type="button" className="auth-btn google-btn">
+          <button onClick={() => window.open('http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api/auth/google', '_self')} type="button" className="auth-btn google-btn">
             <img src={google} alt="Google" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
             Sign in with Google
           </button>

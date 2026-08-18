@@ -5,7 +5,7 @@ const User = require('../models/User');
 // Determine callback URL based on environment
 const CALLBACK_URL = process.env.NODE_ENV === 'production' 
     ? `${process.env.BACKEND_URL}/api/auth/google/callback`
-    : 'http://localhost:5000/api/auth/google/callback';
+    : 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api/auth/google/callback';
 
 console.log('🔑 Google OAuth Callback URL:', CALLBACK_URL);
 

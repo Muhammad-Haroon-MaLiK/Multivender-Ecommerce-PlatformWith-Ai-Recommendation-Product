@@ -4,7 +4,7 @@ import { useCart } from "../context/CartContext";
 import axios from "axios";
 import "./ProductCard.css";
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
 
 const ProductCard = ({ product, onWishlistUpdate }) => {
   const { addToCart } = useCart();
@@ -115,18 +115,18 @@ const ProductCard = ({ product, onWishlistUpdate }) => {
     }
 
     if (imageUrl.startsWith('/uploads/') || imageUrl.startsWith('/images/') || imageUrl.startsWith('/static/')) {
-      return `http://localhost:5000${imageUrl}`;
+      return `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api${imageUrl}`;
     }
 
     if (imageUrl.startsWith('uploads/') || imageUrl.startsWith('images/') || imageUrl.startsWith('static/')) {
-      return `http://localhost:5000/${imageUrl}`;
+      return `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/${imageUrl}`;
     }
 
     if (!imageUrl.includes('/')) {
-      return `http://localhost:5000/uploads/${imageUrl}`;
+      return `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/uploads/${imageUrl}`;
     }
 
-    return `http://localhost:5000/uploads/${imageUrl}`;
+    return `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/uploads/${imageUrl}`;
   };
 
   const handleAddToCart = (e) => {

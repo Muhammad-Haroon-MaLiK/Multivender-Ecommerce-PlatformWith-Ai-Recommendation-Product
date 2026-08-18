@@ -49,15 +49,15 @@ const WishlistPage = () => {
     if (product.images && product.images.length > 0) {
       const img = product.images[0];
       if (typeof img === 'string') {
-        return img.startsWith('http') ? img : `http://localhost:5000${img}`;
+        return img.startsWith('http') ? img : `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api${img}`;
       }
       if (img.url) {
-        return img.url.startsWith('http') ? img.url : `http://localhost:5000${img.url}`;
+        return img.url.startsWith('http') ? img.url : `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api${img.url}`;
       }
     }
     
     if (product.image) {
-      return product.image.startsWith('http') ? product.image : `http://localhost:5000${product.image}`;
+      return product.image.startsWith('http') ? product.image : `http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api${product.image}`;
     }
     
     return null;
