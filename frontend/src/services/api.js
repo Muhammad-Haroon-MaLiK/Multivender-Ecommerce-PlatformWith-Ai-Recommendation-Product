@@ -1,5 +1,5 @@
 // Update the API service to work with new backend
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api';
 
 // Check if we're in development mode
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -38,11 +38,13 @@ const getHeaders = (includeAuth = true) => {
   const headers = { 'Content-Type': 'application/json' };
   
   // Only add auth token if not in development
-  if (!isDevelopment && includeAuth) {
-    const token = getAuthToken();
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+  if (!includeAuth) {
+    return headers;
+  }
+
+  const token = getAuthToken();
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
   }
   
   return headers;
