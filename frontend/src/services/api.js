@@ -1,6 +1,5 @@
 // Update the API service to work with new backend
-// FIXED: Removed /api from the base URL
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // Check if we're in development mode
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -39,13 +38,11 @@ const getHeaders = (includeAuth = true) => {
   const headers = { 'Content-Type': 'application/json' };
   
   // Only add auth token if not in development
-  if (!includeAuth) {
-    return headers;
-  }
-
-  const token = getAuthToken();
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+  if (!isDevelopment && includeAuth) {
+    const token = getAuthToken();
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
   }
   
   return headers;
@@ -54,7 +51,7 @@ const getHeaders = (includeAuth = true) => {
 export const api = {
   // Auth endpoints
   register: async (userData) => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -63,7 +60,7 @@ export const api = {
   },
   
   login: async (credentials) => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials),
@@ -72,14 +69,14 @@ export const api = {
   },
   
   getProfile: async () => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
+    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
       headers: getHeaders(),
     });
     return handleResponse(response);
   },
   
   updateProfile: async (profileData) => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
+    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
       method: 'PUT',
       headers: getHeaders(),
       body: JSON.stringify(profileData),
@@ -90,21 +87,21 @@ export const api = {
   // Product endpoints
   getProducts: async (filters = {}) => {
     const queryParams = new URLSearchParams(filters).toString();
-    const response = await fetch(`${API_BASE_URL}/api/products${queryParams ? `?${queryParams}` : ''}`, {
+    const response = await fetch(`${API_BASE_URL}/products${queryParams ? `?${queryParams}` : ''}`, {
       headers: getHeaders(false), // No auth needed for products
     });
     return handleResponse(response);
   },
   
   getProduct: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/api/products/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
       headers: getHeaders(false),
     });
     return handleResponse(response);
   },
   
   createProduct: async (productData) => {
-    const response = await fetch(`${API_BASE_URL}/api/products`, {
+    const response = await fetch(`${API_BASE_URL}/products`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(productData),
@@ -114,14 +111,14 @@ export const api = {
   
   // Cart endpoints
   getCart: async () => {
-    const response = await fetch(`${API_BASE_URL}/api/cart`, {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
       headers: getHeaders(),
     });
     return handleResponse(response);
   },
   
   addToCart: async (productId, quantity = 1) => {
-    const response = await fetch(`${API_BASE_URL}/api/cart`, {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({ productId, quantity }),
@@ -130,7 +127,7 @@ export const api = {
   },
   
   removeFromCart: async (productId) => {
-    const response = await fetch(`${API_BASE_URL}/api/cart/${productId}`, {
+    const response = await fetch(`${API_BASE_URL}/cart/${productId}`, {
       method: 'DELETE',
       headers: getHeaders(),
     });
@@ -139,7 +136,7 @@ export const api = {
   
   // Order endpoints
   createOrder: async (orderData) => {
-    const response = await fetch(`${API_BASE_URL}/api/orders`, {
+    const response = await fetch(`${API_BASE_URL}/orders`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(orderData),
@@ -148,7 +145,7 @@ export const api = {
   },
   
   getMyOrders: async () => {
-    const response = await fetch(`${API_BASE_URL}/api/orders/myorders`, {
+    const response = await fetch(`${API_BASE_URL}/orders/myorders`, {
       headers: getHeaders(),
     });
     return handleResponse(response);
@@ -156,7 +153,7 @@ export const api = {
   
   // Vendor endpoints
   getVendorStats: async () => {
-    const response = await fetch(`${API_BASE_URL}/api/vendor/stats`, {
+    const response = await fetch(`${API_BASE_URL}/vendor/stats`, {
       headers: getHeaders(),
     });
     return handleResponse(response);
