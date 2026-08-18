@@ -4,7 +4,7 @@ import axios from "axios";
 import "./ProfilePage.css";
 
 // Set base URL
-const API_URL = 'http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
+const API_URL = 'https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
 
 const ProfilePage = ({ user, handleLogout, setUser }) => {
   const navigate = useNavigate();
@@ -258,7 +258,7 @@ const ProfilePage = ({ user, handleLogout, setUser }) => {
               <div className="profile-avatar-wrapper">
                 {avatar ? (
                   <img 
-                    src={`http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api${avatar}`} 
+                    src={`https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api${avatar}`} 
                     alt="Profile" 
                     className="profile-avatar-image"
                     onError={(e) => {

@@ -5,8 +5,8 @@ import axios from "axios";
 import { useCart } from "../context/CartContext";
 import "./ProductDetailPage.css";
 
-const API_URL = "http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api";
-const BASE_URL = "http://https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api";
+const API_URL = "https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api";
+const BASE_URL = "https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
