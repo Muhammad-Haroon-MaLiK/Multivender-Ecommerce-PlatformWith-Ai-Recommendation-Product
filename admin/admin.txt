@@ -1,0 +1,30 @@
+node -e "
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+
+(async () => {
+  await mongoose.connect(process.env.MONGODB_URI);
+  const db = mongoose.connection.db;
+  
+  const adminExists = await db.collection('users').findOne({ email: 'Admin@gmail.com' });
+  
+  if (!adminExists) {
+    const hashedPassword = await bcrypt.hash('Admin123!', 10);
+    await db.collection('users').insertOne({
+      name: 'System Admin',
+      email: 'Admin@gmail.com',
+      password: hashedPassword,
+      role: 'admin',
+      isEmailVerified: true,
+      createdAt: new Date()
+    });
+    console.log('✅ Admin user created!');
+    console.log('Email: Admin@gamil.com');
+    console.log('Password: Admin123!');
+  } else {
+    console.log('Admin user already exists');
+  }
+  process.exit();
+})();
+"

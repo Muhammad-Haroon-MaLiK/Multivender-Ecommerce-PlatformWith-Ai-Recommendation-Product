@@ -1,0 +1,183 @@
+.user-role-manager {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.manager-header h2 {
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.search-box input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 250px;
+  font-size: 0.875rem;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.users-table-container {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th {
+  text-align: left;
+  padding: 1rem;
+  background: #f8f9fa;
+  color: #1a1a2e;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.users-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar-small {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.user-id {
+  font-size: 0.7rem;
+  color: #999;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.role-badge.admin {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.role-badge.vendor {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.role-badge.customer {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.role-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.role-btn {
+  padding: 0.25rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.customer-btn {
+  background: #10b981;
+  color: white;
+}
+
+.customer-btn:hover {
+  background: #059669;
+}
+
+.vendor-btn {
+  background: #f59e0b;
+  color: white;
+}
+
+.vendor-btn:hover {
+  background: #d97706;
+}
+
+.admin-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.admin-btn:hover {
+  background: #dc2626;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .manager-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-box input {
+    width: 100%;
+  }
+  
+  .users-table {
+    min-width: 600px;
+  }
+  
+  .role-actions {
+    flex-direction: column;
+  }
+  
+  .role-btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+  }
+}
