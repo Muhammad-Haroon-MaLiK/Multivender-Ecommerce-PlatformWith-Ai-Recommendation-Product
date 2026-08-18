@@ -472,7 +472,7 @@ async function generateRecommendationsForUser(userId, userEmail) {
 }
 
 //  Get trending products
-// GET /api/recommendations/trending
+// GET /api/recommendations/api/trending
 // Public
 const getTrending = async (req, res) => {
   try {

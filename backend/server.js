@@ -1,4 +1,4 @@
-// server.js - Complete corrected version
+// server.js - Fully Corrected Version
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -49,7 +49,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ─── CORS Configuration ─────────────────────────────────────
-// ─── CORS Configuration ─────────────────────────────────────
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
@@ -59,7 +58,6 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, or Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -79,9 +77,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ─── Static Files with CORS Headers ──────────────────────────
-// THIS MUST COME AFTER app IS INITIALIZED
 app.use('/uploads', (req, res, next) => {
-  // Set CORS headers for all static files
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -89,19 +85,16 @@ app.use('/uploads', (req, res, next) => {
   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
   
-  // Handle preflight requests
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
   next();
 }, express.static(path.join(__dirname, 'uploads'), {
   setHeaders: (res, filePath) => {
-    // Set cache control for images
     res.setHeader('Cache-Control', 'public, max-age=31536000');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     
-    // Set appropriate content type based on file extension
     const ext = path.extname(filePath).toLowerCase();
     const mimeTypes = {
       '.jpg': 'image/jpeg',
@@ -121,46 +114,58 @@ app.use('/uploads', (req, res, next) => {
 // ─── Initialize Passport ──────────────────────────────────
 app.use(passport.initialize());
 
-// ─── Helper function to check if route file exists ──────
-const routeExists = (routePath) => {
-  try {
-    const fullPath = path.join(__dirname, routePath);
-    return fs.existsSync(fullPath);
-  } catch (error) {
-    return false;
-  }
-};
-
-// ─── Routes ────────────────────────────────────────────────
-// Load routes only if they exist
-const routes = [
-  { path: './routes/auth', name: 'auth' },
-  { path: './routes/products', name: 'products' },
-  { path: './routes/vendorRoutes', name: 'vendor' },
-  { path: './routes/admin', name: 'admin' },
-  { path: './routes/cart', name: 'cart' },
-  { path: './routes/orders', name: 'orders' },
-  { path: './routes/vendors', name: 'vendors' },
-  { path: './routes/recommendationRoutes', name: 'recommendations' },
-  { path: './routes/reviews', name: 'reviews' },
-  { path: './routes/categories', name: 'categories' },
-  { path: './routes/payments', name: 'payments' },
-  { path: './routes/wishlist', name: 'wishlist' },
-  { path: './routes/contact', name: 'contact' },
+// ─── Route Registry (FIXED: Added .js and Safe Loading) ──
+const routeConfigs = [
+  { name: 'auth', path: './routes/auth.js' },
+  { name: 'products', path: './routes/products.js' },
+  { name: 'vendor', path: './routes/vendorRoutes.js' },
+  { name: 'admin', path: './routes/admin.js' },
+  { name: 'cart', path: './routes/cart.js' },
+  { name: 'orders', path: './routes/orders.js' },
+  { name: 'vendors', path: './routes/vendors.js' },
+  { name: 'recommendations', path: './routes/recommendationRoutes.js' },
+  { name: 'reviews', path: './routes/reviews.js' },
+  { name: 'categories', path: './routes/categories.js' },
+  { name: 'payments', path: './routes/payments.js' },
+  { name: 'wishlist', path: './routes/wishlist.js' },
+  { name: 'contact', path: './routes/contact.js' },
 ];
 
-// Dynamically load routes
-routes.forEach((route) => {
+// Store loaded routes for API documentation
+const loadedRoutes = [];
+
+// Dynamically load routes with safe fallback
+routeConfigs.forEach((route) => {
   try {
-    const routeModule = require(route.path);
-    app.use(`/api/${route.name}`, routeModule);
-    console.log(`✅ Route loaded: /api/${route.name}`);
-  } catch (error) {
-    if (error.code === 'MODULE_NOT_FOUND') {
-      console.log(`⚠️ Route file not found: ${route.path}, skipping...`);
+    const fullPath = path.join(__dirname, route.path);
+    if (fs.existsSync(fullPath)) {
+      const routeModule = require(route.path);
+      app.use(`/api/${route.name}`, routeModule);
+      loadedRoutes.push(route.name);
+      console.log(`✅ Route loaded: /api/${route.name}`);
     } else {
-      console.error(`❌ Error loading route ${route.path}:`, error.message);
+      console.log(`⚠️ Route file not found: ${route.path}, creating fallback...`);
+      // Create a fallback route that returns 404 with meaningful message
+      app.use(`/api/${route.name}`, (req, res) => {
+        res.status(404).json({
+          success: false,
+          message: `Route /api/${route.name} is not implemented yet (File missing)`,
+          requestedUrl: req.originalUrl,
+          method: req.method
+        });
+      });
+      loadedRoutes.push(`${route.name} (fallback)`);
     }
+  } catch (error) {
+    console.error(`❌ Error loading route ${route.path}:`, error.message);
+    // Create a fallback route even on error
+    app.use(`/api/${route.name}`, (req, res) => {
+      res.status(500).json({
+        success: false,
+        message: `Route /api/${route.name} failed to load`,
+        error: error.message
+      });
+    });
   }
 });
 
@@ -173,7 +178,8 @@ app.get('/health', (req, res) => {
     status: 'healthy',
     memoryUsage: process.memoryUsage(),
     nodeVersion: process.version,
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    loadedRoutes: loadedRoutes
   };
   try {
     res.status(200).json(healthCheck);
@@ -186,21 +192,10 @@ app.get('/health', (req, res) => {
 // ─── API Documentation ─────────────────────────────────────
 app.get('/api', (req, res) => {
   const endpoints = {};
-
-  // List available endpoints based on loaded routes
-  const availableRoutes = routes
-    .filter(r => {
-      try {
-        require.resolve(r.path);
-        return true;
-      } catch {
-        return false;
-      }
-    })
-    .map(r => r.name);
-
-  availableRoutes.forEach(routeName => {
-    endpoints[routeName] = `/api/${routeName}`;
+  loadedRoutes.forEach(routeName => {
+    // Clean up " (fallback)" suffix for display
+    const cleanName = routeName.replace(' (fallback)', '');
+    endpoints[cleanName] = `/api/${cleanName}`;
   });
 
   res.json({
@@ -342,18 +337,11 @@ const startServer = async () => {
     console.log(`🔗 API Documentation: http://localhost:${PORT}/api`);
     console.log(`💚 Health Check: http://localhost:${PORT}/health`);
     console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`📧 Email Service: ${process.env.EMAIL_SERVICE || 'Not configured'}`);
     console.log('='.repeat(60));
     console.log('\n📋 Available Routes:');
     
-    // List loaded routes
-    routes.forEach(r => {
-      try {
-        require.resolve(r.path);
-        console.log(`  ✅ /api/${r.name}`);
-      } catch {
-        console.log(`  ❌ /api/${r.name} (not loaded)`);
-      }
+    loadedRoutes.forEach(route => {
+      console.log(`  ✅ /api/${route}`);
     });
     
     console.log('\n' + '='.repeat(60));

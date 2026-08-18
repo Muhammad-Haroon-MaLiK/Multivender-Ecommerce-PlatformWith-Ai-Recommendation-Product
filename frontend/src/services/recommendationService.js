@@ -1,5 +1,5 @@
-
-const API_BASE = 'https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api](https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app/api/api';
+// FIXED: Removed duplicate /api from the base URL
+const API_BASE = 'https://multivender-ecommerce-platformwith-ai-recommenda-production.up.railway.app';
 
 function getSessionId() {
   let sid = localStorage.getItem('sv_session_id');
@@ -29,7 +29,8 @@ async function track(productId, eventType) {
     const token = getAuthToken();
     const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
     
-    await fetch(`${API_BASE}/recommendations/track`, {
+    // FIXED: Added /api/ to the path
+    await fetch(`${API_BASE}/api/recommendations/track`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,9 +58,11 @@ export async function getRecommendationFeed(limit = 12) {
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
   const isLoggedIn = !!token;
+  
+  // FIXED: Added /api/ to both URLs
   const url = isLoggedIn
-    ? `${API_BASE}/recommendations?limit=${limit}`
-    : `${API_BASE}/recommendations/trending?limit=${limit}`;
+    ? `${API_BASE}/api/recommendations?limit=${limit}`
+    : `${API_BASE}/api/recommendations/trending?limit=${limit}`;
 
   try {
     const res = await fetch(url, { headers });
@@ -68,7 +71,8 @@ export async function getRecommendationFeed(limit = 12) {
       // Token exists but server rejected it (expired/invalid) — fall back to
       // trending instead of surfacing a broken "No recommendations yet" state.
       if (res.status === 401) {
-        const fallbackRes = await fetch(`${API_BASE}/recommendations/trending?limit=${limit}`);
+        // FIXED: Added /api/ to fallback URL
+        const fallbackRes = await fetch(`${API_BASE}/api/recommendations/trending?limit=${limit}`);
         if (!fallbackRes.ok) {
           throw new Error(`HTTP error! status: ${fallbackRes.status}`);
         }

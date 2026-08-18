@@ -47,7 +47,7 @@ const RecommendationsSection = ({ setPage, addToCart }) => {
         setProducts(data.products || []);
       } else {
         // Get trending products for guests
-        const response = await axios.get(`${API_URL}/recommendations/trending?limit=8`);
+        const response = await axios.get(`${API_URL}/recommendations/api/trending?limit=8`);
         data = response.data;
         setRecommendationType('trending');
         setMessage('Trending products on the platform');

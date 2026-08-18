@@ -139,7 +139,7 @@ const HomePage = ({ setPage }) => {
         url = `${API_URL}/recommendations/${user.email}`;
         console.log('📊 Fetching personalized recommendations for:', user.email);
       } else {
-        url = `${API_URL}/recommendations/trending?limit=8`;
+        url = `${API_URL}/recommendations/api/trending?limit=8`;
         console.log('📊 Fetching trending products (not logged in)');
       }
 
@@ -207,7 +207,7 @@ const HomePage = ({ setPage }) => {
       
       try {
         console.log('📊 Falling back to trending products...');
-        const trendingResponse = await axios.get(`${API_URL}/recommendations/trending?limit=8`);
+        const trendingResponse = await axios.get(`${API_URL}/recommendations/api/trending?limit=8`);
         
         if (trendingResponse.data && trendingResponse.data.products) {
           const fallbackData = trendingResponse.data.products.map(product => ({
