@@ -49,8 +49,23 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ─── CORS Configuration ─────────────────────────────────────
+// ─── CORS Configuration ─────────────────────────────────────
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://fyp-pi-ivory.vercel.app',
+  process.env.CLIENT_URL
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS Policy: Origin not allowed'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
