@@ -1,4 +1,4 @@
-// server.js - Fully Corrected Version
+// server.js - Complete Production Ready Version (CORS & Fallback Fixed)
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -134,7 +134,7 @@ const routeConfigs = [
 // Store loaded routes for API documentation
 const loadedRoutes = [];
 
-// Dynamically load routes with safe fallback
+// Dynamically load routes with safe fallback (FIX: Added OPTIONS handling)
 routeConfigs.forEach((route) => {
   try {
     const fullPath = path.join(__dirname, route.path);
@@ -145,8 +145,11 @@ routeConfigs.forEach((route) => {
       console.log(`✅ Route loaded: /api/${route.name}`);
     } else {
       console.log(`⚠️ Route file not found: ${route.path}, creating fallback...`);
-      // Create a fallback route that returns 404 with meaningful message
+      // 🛑 CRITICAL FIX: Handle OPTIONS preflight and 404 gracefully
       app.use(`/api/${route.name}`, (req, res) => {
+        if (req.method === 'OPTIONS') {
+          return res.status(200).end(); // Allow preflight
+        }
         res.status(404).json({
           success: false,
           message: `Route /api/${route.name} is not implemented yet (File missing)`,
@@ -158,8 +161,11 @@ routeConfigs.forEach((route) => {
     }
   } catch (error) {
     console.error(`❌ Error loading route ${route.path}:`, error.message);
-    // Create a fallback route even on error
+    // Fallback even on error (FIX: Added OPTIONS)
     app.use(`/api/${route.name}`, (req, res) => {
+      if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+      }
       res.status(500).json({
         success: false,
         message: `Route /api/${route.name} failed to load`,
@@ -193,7 +199,6 @@ app.get('/health', (req, res) => {
 app.get('/api', (req, res) => {
   const endpoints = {};
   loadedRoutes.forEach(routeName => {
-    // Clean up " (fallback)" suffix for display
     const cleanName = routeName.replace(' (fallback)', '');
     endpoints[cleanName] = `/api/${cleanName}`;
   });
@@ -295,9 +300,8 @@ app.use((err, req, res, next) => {
 // ─── Database Connection ────────────────────────────────────
 const connectDB = async () => {
   try {
+    // FIX: Removed deprecated options (useNewUrlParser, useUnifiedTopology)
     await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });
